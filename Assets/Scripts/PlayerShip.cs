@@ -11,6 +11,8 @@ public class PlayerShip : MonoBehaviour
     private Vector2 m_SpriteSize;
     private int CurrentLife = 5;
 
+    public Shoot ShootPrefab;
+
     void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -21,6 +23,9 @@ public class PlayerShip : MonoBehaviour
     {
         MovePlayerShip();
         CheckPlayerPosition();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Fire();
     }
 
     void MovePlayerShip()
@@ -61,10 +66,27 @@ public class PlayerShip : MonoBehaviour
             if (CurrentLife == 0)
             {
                 Debug.Log("Tu es mort sale nul");
-                return;
-            }
 
-            Lifebar[--CurrentLife].DestroyItemLife();
+            }
+            else
+            {
+                Lifebar[--CurrentLife].DestroyItemLife();
+            }
         }
+    }
+
+    [ContextMenu("RestoreLife")]
+    private void RestoreLife()
+    {
+        if (CurrentLife < 5)
+        {
+            Lifebar[CurrentLife].RestoreItemLife();
+            ++CurrentLife;
+        }
+    }
+    private void Fire()
+    {
+        var shoot = Instantiate(ShootPrefab, transform.position, Quaternion.identity);
+        shoot.Direction = transform.right;
     }
 }

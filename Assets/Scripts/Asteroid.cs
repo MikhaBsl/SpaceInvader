@@ -11,6 +11,8 @@ public class Asteroid : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D Rigidbody;
 
+    private bool IsDead;
+
     public void Awake()
     {
         SpriteSize = GetComponent<SpriteRenderer>().bounds.size;
@@ -32,7 +34,11 @@ public class Asteroid : MonoBehaviour
 
     public void Dead()
     {
-        --AsteroidManager.Instance.AsteroidsCurrentCount;
-        Destroy(gameObject);
+        if (!IsDead)
+        {
+            IsDead = true;
+            --AsteroidManager.Instance.AsteroidsCurrentCount;
+            Destroy(gameObject);
+        }
     }
 }
