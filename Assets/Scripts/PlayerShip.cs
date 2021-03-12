@@ -65,16 +65,14 @@ public class PlayerShip : MonoBehaviour
             if (collision.gameObject.TryGetComponent<Asteroid>(out asteroid))
                 asteroid.Dead();
 
-            if (CurrentLife == 0)
+            if (CurrentLife == 1)
             {
                 AudioShipDestroy.Play();
                 Debug.Log("Tu es mort sale nul");
 
             }
-            else
-            {
+            if (CurrentLife > 0 )
                 Lifebar[--CurrentLife].DestroyItemLife();
-            }
         }
     }
 

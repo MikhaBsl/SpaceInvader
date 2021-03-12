@@ -28,7 +28,8 @@ public class Asteroid : MonoBehaviour
     {
         if (transform.position.x < GameManager.Instance.LeftBottomMap.x + (SpriteSize.x * 0.5f))
         {
-            Dead();
+            --AsteroidManager.Instance.AsteroidsCurrentCount;
+            Destroy(gameObject);
         }
     }
 
