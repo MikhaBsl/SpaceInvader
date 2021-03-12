@@ -13,6 +13,8 @@ public class PlayerShip : MonoBehaviour
 
     public Shoot ShootPrefab;
 
+    public AudioSource AudioShipDestroy;
+
     void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -65,6 +67,7 @@ public class PlayerShip : MonoBehaviour
 
             if (CurrentLife == 0)
             {
+                AudioShipDestroy.Play();
                 Debug.Log("Tu es mort sale nul");
 
             }

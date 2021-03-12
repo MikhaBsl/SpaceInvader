@@ -9,6 +9,8 @@ public class AsteroidManager : SingletonMonoBehaviour<AsteroidManager>
     public int AsteroidsCurrentCount;
     public int AsteroidsMaxCount;
 
+    public AudioSource AudioAsteroidDestroy;
+
     void Update()
     {
         if (AsteroidsCurrentCount < AsteroidsMaxCount)

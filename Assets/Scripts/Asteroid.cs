@@ -36,6 +36,7 @@ public class Asteroid : MonoBehaviour
     {
         if (!IsDead)
         {
+            AsteroidManager.Instance.AudioAsteroidDestroy.Play();
             IsDead = true;
             --AsteroidManager.Instance.AsteroidsCurrentCount;
             Destroy(gameObject);
