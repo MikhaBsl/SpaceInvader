@@ -11,7 +11,10 @@ public class Asteroid : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D Rigidbody;
 
+    private int randomItem;
+
     private bool IsDead;
+    public LifeCollectable LifeCollectablePrefabs;
 
     public void Awake()
     {
@@ -41,6 +44,9 @@ public class Asteroid : MonoBehaviour
             IsDead = true;
             --AsteroidManager.Instance.AsteroidsCurrentCount;
             Destroy(gameObject);
+
+            if (Random.Range(0, 5) == 1)
+                Instantiate(LifeCollectablePrefabs, transform.position, Quaternion.identity);
         }
     }
 }

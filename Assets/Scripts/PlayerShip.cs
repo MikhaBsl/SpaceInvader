@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShip : MonoBehaviour
 {
@@ -15,19 +16,41 @@ public class PlayerShip : MonoBehaviour
 
     public AudioSource AudioShipDestroy;
 
+    private SpriteRenderer m_SpriteRenderer;
+
     void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         m_SpriteSize = GetComponent<SpriteRenderer>().bounds.size;
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        MovePlayerShip();
-        CheckPlayerPosition();
+        if (CurrentLife > 0)
+        {
+            MovePlayerShip();
+            CheckPlayerPosition();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            Fire();
+            if (Input.GetKeyDown(KeyCode.Space))
+                Fire();
+        }
+        else 
+        {
+            m_Rigidbody2D.velocity = Vector2.zero;
+
+            if (m_SpriteRenderer.color.a > 0.01f)
+            {
+                var color = m_SpriteRenderer.color;
+                color.a = Mathf.Lerp(m_SpriteRenderer.color.a, 0, Time.deltaTime * 60f * 0.1f);
+                m_SpriteRenderer.color = color; 
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
     }
 
     void MovePlayerShip()
@@ -57,22 +80,42 @@ public class PlayerShip : MonoBehaviour
             transform.position = new Vector3(leftTopX, transform.position.y, 0);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Asteroid asteroid;
-            if (collision.gameObject.TryGetComponent<Asteroid>(out asteroid))
+            if (collider.gameObject.TryGetComponent<Asteroid>(out asteroid))
                 asteroid.Dead();
+
+            EnemyShip enemyShip;
+            if (collider.gameObject.TryGetComponent<EnemyShip>(out enemyShip))
+            {
+                enemyShip.Dead();
+            }
+
+            EnemyShoot enemyShoot;
+            if (collider.gameObject.TryGetComponent<EnemyShoot>(out enemyShoot))
+            {
+                enemyShoot.Dead();
+            }
 
             if (CurrentLife == 1)
             {
                 AudioShipDestroy.Play();
-                Debug.Log("Tu es mort sale nul");
-
             }
             if (CurrentLife > 0 )
                 Lifebar[--CurrentLife].DestroyItemLife();
+        }
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Collectable"))
+        {
+            LifeCollectable lifeCollectable;
+            if (collider.gameObject.TryGetComponent<LifeCollectable>(out lifeCollectable))
+            {
+                RestoreLife();
+                Destroy(lifeCollectable.gameObject);
+            }
         }
     }
 

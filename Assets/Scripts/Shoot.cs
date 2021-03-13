@@ -30,9 +30,19 @@ public class Shoot : MonoBehaviour
        {
             Asteroid asteroid;
             if (collider.gameObject.TryGetComponent<Asteroid>(out asteroid))
+            {
                 asteroid.Dead();
-            ++GameManager.Instance.Score;
+                ++GameManager.Instance.Score;
+            }
+
+            EnemyShip enemyShip;
+            if (collider.gameObject.TryGetComponent<EnemyShip>(out enemyShip))
+            {
+                enemyShip.Dead();
+                GameManager.Instance.Score += 5;
+            }
+
             Destroy(gameObject);
-       }
+        }
     }
 }
