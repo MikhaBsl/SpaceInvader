@@ -42,6 +42,10 @@ public class Shoot : MonoBehaviour
                 GameManager.Instance.Score += 5;
             }
 
+            EnemyShoot enemyShoot;
+            if (collider.gameObject.TryGetComponent<EnemyShoot>(out enemyShoot))
+                enemyShoot.Dead();
+
             Destroy(gameObject);
         }
     }

@@ -11,8 +11,6 @@ public class Asteroid : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D Rigidbody;
 
-    private int randomItem;
-
     private bool IsDead;
     public LifeCollectable LifeCollectablePrefabs;
 
@@ -22,7 +20,7 @@ public class Asteroid : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         Rigidbody.velocity = Speed;
     }

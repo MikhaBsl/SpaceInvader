@@ -6,6 +6,7 @@ public class EnemyShipManager : SingletonMonoBehaviour<EnemyShipManager>
 {
     public EnemyShip EnemyShipPrefab;
 
+    public int StartEnemyCount = 2;
     public int EnemyShipCurrentCount;
     public int EnemyShipMaxCount;
 
@@ -13,6 +14,7 @@ public class EnemyShipManager : SingletonMonoBehaviour<EnemyShipManager>
 
     void Update()
     {
+        EnemyShipMaxCount = (int)(GameManager.Instance.Score * 0.075f) + StartEnemyCount;
         if (EnemyShipCurrentCount < EnemyShipMaxCount)
         {
             ++EnemyShipCurrentCount;

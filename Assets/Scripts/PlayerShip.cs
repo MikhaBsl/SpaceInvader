@@ -43,7 +43,7 @@ public class PlayerShip : MonoBehaviour
             {
                 var color = m_SpriteRenderer.color;
                 color.a = Mathf.Lerp(m_SpriteRenderer.color.a, 0, Time.deltaTime * 60f * 0.1f);
-                m_SpriteRenderer.color = color; 
+                m_SpriteRenderer.color = color;
             }
             else
             {
@@ -90,20 +90,15 @@ public class PlayerShip : MonoBehaviour
 
             EnemyShip enemyShip;
             if (collider.gameObject.TryGetComponent<EnemyShip>(out enemyShip))
-            {
                 enemyShip.Dead();
-            }
 
             EnemyShoot enemyShoot;
             if (collider.gameObject.TryGetComponent<EnemyShoot>(out enemyShoot))
-            {
                 enemyShoot.Dead();
-            }
 
             if (CurrentLife == 1)
-            {
                 AudioShipDestroy.Play();
-            }
+
             if (CurrentLife > 0 )
                 Lifebar[--CurrentLife].DestroyItemLife();
         }

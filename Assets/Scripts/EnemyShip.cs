@@ -16,8 +16,8 @@ public class EnemyShip : MonoBehaviour
     public EnemyShoot EnemyShootPrefab;
     public AudioSource AudioEnemyShoot;
 
-    //private bool coroutine;
-    //private bool test;
+    float FireRate = 2f;
+    float NextFire = 0f;
 
     public void Awake()
     {
@@ -39,15 +39,11 @@ public class EnemyShip : MonoBehaviour
             Destroy(gameObject);
         }
 
-        /*if (!coroutine)
+        if (Time.time > NextFire)
         {
-            coroutine = true;
-            StartCoroutine("EnemyShootDelay");
+            NextFire = Time.time + FireRate;
+            FireEnemy();
         }
-
-        if (!test)
-            FireEnemy();*/
-
     }
 
     public void Dead()
@@ -66,12 +62,5 @@ public class EnemyShip : MonoBehaviour
         AudioEnemyShoot.Play();
         var enemyShoot = Instantiate(EnemyShootPrefab, transform.position, Quaternion.identity);
         enemyShoot.Direction = transform.right * -1f;  
-    }
-
-    IEnumerable EnemyShootDelay() 
-    {
-        
-        yield return new WaitForSeconds(3);
-        //test = true;
     }
 }

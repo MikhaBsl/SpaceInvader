@@ -22,7 +22,7 @@ public class EnemyShoot : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.x > GameManager.Instance.RightTopMap.x)
+        if (transform.position.x < GameManager.Instance.LeftBottomMap.x)
             Destroy(gameObject);
     }
 
